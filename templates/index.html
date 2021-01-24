@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Log-In{% endblock %}
+{% block content %}
+    <h1>Log-In</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <p>Please select your name:</p>
+        <input type="radio" id="Sarah" name="user" value="Sarah" required>
+        <label for="Sarah">Sarah</label><br>
+        <input type="radio" id="Samuel" name="user" value="Samuel">
+        <label for="Samuel">Samuel</label><br>
+        <input type="radio" id="Daniel" name="user" value="Daniel">
+        <label for="Daniel">Daniel</label><br><br>
+        <input type="submit" value="Next">
+    </form>
+{% endblock %}

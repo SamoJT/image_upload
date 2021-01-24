@@ -1,0 +1,26 @@
+How to download and run:
+
+Clone project:
+$ git clone https://github.com/SamoJT/image_upload
+
+cd to dir
+
+Create virtual env:
+Linux:$ python3 -m venv venv
+Winds:$ py -3 -m venv venv
+
+Actiate env:
+Linux:$ . venv/bin/activate
+Winds:$ venv\Scripts\activate
+
+Install Flask:
+pip install flask
+
+Run App(in app dir):
+Linux:$ export FLASK_APP=hello.py
+Linux:$ flask run
+Winds:$ set FLASK_APP=hello.py
+Winds:$ flask run
+
+Allow LAN access:
+$ flask run --host=0.0.0.0
