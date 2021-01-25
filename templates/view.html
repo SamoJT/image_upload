@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}View{% endblock %}
+{% block content %} 
+<!-- Ensure that there is a sym link to HDD dir in the static folder -->
+    <img src="{{ url_for('static', filename='test/win.jpg') }}">
+    {% autoescape off %}
+        {{html_card}}
+    {% endautoescape %}
+{% endblock %}
