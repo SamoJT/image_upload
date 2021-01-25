@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, flash
 from werkzeug.utils import secure_filename
-from os import path
+from math import floor
+from os import path, scandir
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './uploads/'
@@ -34,4 +35,35 @@ def upload_file():
         flash('Upload Successful')
         return redirect(f'user/{user}')
     return redirect(url_for('index'), code=302)
+
+@app.route('/user/<name>/view') # Get user name var in. Use in render at end.
+def image_view(name):
+    # Dynamic generation of responsive image grid - Maybe fixed size grid still auto generate? or hardcode
+    cols = 4
+    rows = 4
+    html_card = '<div class="row">\n'
+    count = 0
+    done = False
+    directory = 'C:\\Users\\Sam\\Documents\\Uni\\Python\\website\\uploads\\'
+    file_names = [file for file in scandir(directory)]
+    if file_names == None:
+        return 'Error' # Call render with error var
+
+    for i in range(cols):
+        if done:
+            break
+        html_card += '<div class="column">\n'
+        for i in range(rows):
+            try:
+                fn = 'test/' + file_names[count].name 
+                # 'test' is the directory that is sym linked to the dir of images
+                src = url_for('static', filename=fn)
+                html_card += f'<img src="{src}">\n'
+                count += 1
+            except:
+                done = True
+        html_card += '</div>\n'
+    html_card += '</div>\n'
+    html_card
+    return render_template('view.html', html_card=html_card)
 ###################################
