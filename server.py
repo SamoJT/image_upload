@@ -4,7 +4,6 @@ from math import floor
 from os import path, scandir
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = './uploads/'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Cache age = 0
 app.secret_key = b'r;l5rpKIH&7e7w0~l{*&Gjst'
 
@@ -27,11 +26,13 @@ def users(name=None):
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
+    upload_base = './uploads/'
     if request.method == 'POST':
         files = request.files.getlist('file')
-        for f in files:
-            f.save(path.join(app.config["UPLOAD_FOLDER"], secure_filename(f.filename)))
         user = request.form['user_name']
+        upload_folder = upload_base + f'{user}/'
+        for f in files:
+            f.save(path.join(upload_folder, secure_filename(f.filename)))
         flash('Upload Successful')
         return redirect(f'user/{user}')
     return redirect(url_for('index'), code=302)
@@ -44,7 +45,7 @@ def image_view(name):
     html_card = '<div class="row">\n'
     count = 0
     done = False
-    directory = 'C:\\Users\\Sam\\Documents\\Uni\\Python\\website\\uploads\\'
+    directory = f'C:\\Users\\Sam\\Documents\\Uni\\Python\\website\\uploads\\{name}'
     file_names = [file for file in scandir(directory)]
     if file_names == None:
         return 'Error' # Call render with error var
@@ -55,7 +56,7 @@ def image_view(name):
         html_card += '<div class="column">\n'
         for i in range(rows):
             try:
-                fn = 'test/' + file_names[count].name 
+                fn = f'usr_dirs/{name}/' + file_names[count].name 
                 # 'test' is the directory that is sym linked to the dir of images
                 src = url_for('static', filename=fn)
                 html_card += f'<img src="{src}">\n'
