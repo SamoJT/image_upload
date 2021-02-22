@@ -26,7 +26,7 @@ def users(name=None):
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
-    upload_base = './uploads/'
+    upload_base = './static/usr_dirs/'
     if request.method == 'POST':
         files = request.files.getlist('file')
         user = request.form['user_name']
