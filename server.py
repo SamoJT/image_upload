@@ -22,7 +22,7 @@ def users(name=None):
     allowed_users = ['Sarah', 'Samuel', 'Daniel']
     if name not in allowed_users:
         abort(404)
-    return render_template('user.html', name=name)    
+    return render_template('user.html', name=name)
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():
@@ -39,13 +39,16 @@ def upload_file():
 
 @app.route('/user/<name>/view') # Get user name var in. Use in render at end.
 def image_view(name):
-    # Dynamic generation of responsive image grid - Maybe fixed size grid still auto generate? or hardcode
+    #  Dynamic generation of responsive image grid - Maybe fixed size grid still auto generate? or hardcode
+    
     cols = 4
     rows = 4
     html_card = '<div class="row">\n'
     count = 0
     done = False
-    directory = f'C:\\Users\\Sam\\Documents\\Uni\\Python\\website\\uploads\\{name}'
+    with open('dir.txt', 'r') as f:
+        directory = f.readline()+name
+    
     file_names = [file for file in scandir(directory)]
     if file_names == None:
         return 'Error' # Call render with error var
