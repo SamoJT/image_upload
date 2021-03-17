@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, flash
+import sqlite3
+from flask import Flask, render_template, request, redirect, url_for, abort, flash, g
 from werkzeug.utils import secure_filename
 from math import floor
 from os import path, scandir
@@ -6,6 +7,20 @@ from os import path, scandir
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Cache age = 0
 app.secret_key = b'r;l5rpKIH&7e7w0~l{*&Gjst'
+DATABASE = 'db/main.db'
+
+################# DB ###################
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g.__database = sqlite3.connect(DATABASE)
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+########################################
 
 ################ ROUTES ################
 @app.route('/', methods=['GET', 'POST'])
@@ -22,7 +37,7 @@ def users(name=None):
     allowed_users = ['Sarah', 'Samuel', 'Daniel']
     if name not in allowed_users:
         abort(404)
-    return render_template('user.html', name=name)
+    return render_template('user_landing.html', name=name)
 
 @app.route('/upload', methods=['GET','POST'])
 def upload_file():

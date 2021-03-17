@@ -4,6 +4,7 @@
         {% block head %}
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
+            <link rel="icon" type="image/png" href="{{ url_for('static', filename='imgs/nas.png') }}"/>
             <title>{% block title %}{% endblock %} - Photo Uploader</title>
         {% endblock %}
         <div id="content">
@@ -12,7 +13,7 @@
         </div>
         <div id="footer">
             {% block footer %}
-                &copy; Made by Sam
+                &copy; Made by Sam 2021
             {% endblock %}
         </div>
     </body>
